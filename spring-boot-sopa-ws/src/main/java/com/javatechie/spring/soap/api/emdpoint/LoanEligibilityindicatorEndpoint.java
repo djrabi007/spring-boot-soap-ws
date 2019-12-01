@@ -1,6 +1,7 @@
 package com.javatechie.spring.soap.api.emdpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -16,10 +17,14 @@ public class LoanEligibilityindicatorEndpoint {
 	private static final String NAMESPACE = "http://www.javatechie.com/spring/soap/api/loanEligibility";
 	@Autowired
 	private LoanEligibilityService service;
+	
+	@Value("${mvp.switch.rabi}")
+	private String bypass;
 
 	@PayloadRoot(namespace = NAMESPACE, localPart = "CustomerRequest")
 	@ResponsePayload
 	public Acknowledgement getLoanStatus(@RequestPayload CustomerRequest request) {
+		System.out.println("###bypass= "+bypass);
 		return service.checkLoanEligibility(request);
 	}
 
